@@ -48,10 +48,9 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 from pathlib import Path
 import cv2
 from PIL import Image, ImageFile
-# from tensorflow.keras.models import load_model
 import matplotlib.image as matimage
 # load model
-model = load_model('E:\INTERNSHIP\SRI TECH ENGG\CRAFT-pytorch\models\model_distributed1.h5')
+model = load_model('.\models\model_distributed1.h5')
 print("Model is loaded")
 
 
@@ -97,93 +96,6 @@ image_list, _, _ = file_utils.get_files(args.test_folder)
 #     os.mkdir(result_folder)
 
 from math import atan2, degrees
-
-# def rotate_image(image, angle):
-#     # Rotate the image around its center
-#     height, width = image.shape[:2]
-#     center = (width // 2, height // 2)
-#     rotation_matrix = cv2.getRotationMatrix2D(center, angle, 1.0)
-#     rotated_image = cv2.warpAffine(image, rotation_matrix, (width, height), flags=cv2.INTER_LINEAR)
-#     return rotated_image
-
-# def rotate_point(point, center, angle):
-#     # Rotate a point around a center by a specified angle
-#     x, y = point
-#     angle_rad = np.radians(angle)
-#     new_x = int((x - center[0]) * np.cos(angle_rad) - (y - center[1]) * np.sin(angle_rad) + center[0])
-#     new_y = int((x - center[0]) * np.sin(angle_rad) + (y - center[1]) * np.cos(angle_rad) + center[1])
-#     return new_x, new_y
-
-
-# def show_final_image(image, bboxes, save_path=None, original_filename=None):
-#     coordinates_dict = {}
-
-#     # Initialize rotated_image before the loop
-#     rotated_image = image.copy()
-
-#     for i, bbox in enumerate(bboxes):
-#         # Convert bbox to integers
-#         bbox = np.array(bbox)  # Convert to NumPy array for easier manipulation
-#         bbox = bbox.astype(int)
-
-#         # Extract coordinates
-#         x_coords = bbox[:, 0]
-#         y_coords = bbox[:, 1]
-
-#         # Calculate the rotation angle of the bounding box
-#         angle = degrees(atan2(y_coords[1] - y_coords[0], x_coords[1] - x_coords[0]))
-
-#         # Rotate the image
-#         rotated_image = rotate_image(rotated_image, angle)
-
-#         # Rotate the bounding box points
-#         center = (rotated_image.shape[1] // 2, rotated_image.shape[0] // 2)
-#         rotated_bbox = np.array([rotate_point(point, center, -angle) for point in bbox])
-
-#         # Draw rotated bounding box on the image
-#         cv2.polylines(rotated_image, [rotated_bbox], isClosed=True, color=(0, 255, 0), thickness=2)
-
-#         # Crop the rotated image based on the rotated bounding box
-#         xmin, xmax = min(rotated_bbox[:, 0]), max(rotated_bbox[:, 0])
-#         ymin, ymax = min(rotated_bbox[:, 1]), max(rotated_bbox[:, 1])
-#         cropped_img = rotated_image[ymin:ymax, xmin:xmax]
-
-#         # Save the cropped image if a save path is provided
-#         if save_path:
-#             # Create a filename based on the box serial number and original filename
-#             filename = f'{os.path.basename(original_filename)}_Cropped_Box_{i + 1}'
-#             cv2.imwrite(os.path.join(save_path, filename), cropped_img)
-
-#         # Store coordinates in the dictionary
-#         coordinates_dict[f'{os.path.basename(original_filename)}_Box_{i + 1}'] = {
-#             'x_coords': x_coords.tolist(),
-#             'y_coords': y_coords.tolist(),
-#             'xmin': xmin,
-#             'ymin': ymin,
-#             'xmax': xmax,
-#             'ymax': ymax,
-#             'filename': filename if save_path else None  # Include the filename in the dictionary
-#         }
-
-#     # Display the rotated image with bounding boxes
-#     cv2.imshow('Final Rotated Image with Bounding Boxes', rotated_image)
-#     cv2.waitKey(0)
-#     cv2.destroyAllWindows()
-
-#     return coordinates_dict
-
-# def rotate_image(image, angle):
-#     center = (image.shape[1] // 2, image.shape[0] // 2)
-#     rot_matrix = cv2.getRotationMatrix2D(center, angle, 1.0)
-#     rotated_image = cv2.warpAffine(image, rot_matrix, (image.shape[1], image.shape[0]), flags=cv2.INTER_LINEAR)
-#     return rotated_image
-
-# def rotate_point(point, center, angle):
-#     angle_rad = np.deg2rad(angle)
-#     x, y = point[0] - center[0], point[1] - center[1]
-#     new_x = x * np.cos(angle_rad) - y * np.sin(angle_rad) + center[0]
-#     new_y = x * np.sin(angle_rad) + y * np.cos(angle_rad) + center[1]
-#     return int(new_x), int(new_y)
 
 def rotate_image(image, angle):
     center = (image.shape[1] // 2, image.shape[0] // 2)
@@ -289,29 +201,18 @@ def get_text_from_model(image):
     print("\nTEXT FROM MODEL")
     text = ''
     result_dict = {'0':0,'1':1, '2':2, '3':3, '4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'a': 11, 'b': 12, 'c': 13, 'd': 14, 'e': 15, 'f': 16, 
-    'g': 17, 'h': 18, 'i': 19, 'j': 20, 'k': 23, 'l': 22, 'm': 21, 'n': 24, 'o': 25, 'p': 26, 'q': 27, 'r': 28, 's': 29, 't': 30, 
-    'u': 31, 'v': 32, 'w': 33, 'x': 34, 'y': 35, 'z': 36} #m and k value is interchanged and 10 value is missing
-    print(image.shape)
-    
+    'g': 17, 'h': 18, 'i': 19, 'j': 20, 'k': 21, 'l': 22, 'm': 23, 'n': 24, 'o': 25, 'p': 26, 'q': 27, 'r': 28, 's': 29, 't': 30, 
+    'u': 31, 'v': 32, 'w': 33, 'x': 34, 'y': 35, 'z': 36} #10 value is missing because it used as last neuron value for unknown values
     cv_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     resize_img = cv2.resize(cv_rgb, (32,32))
-    print(resize_img.shape)
     arr_img = np.asarray(resize_img)
-    print(arr_img.shape)
-    cv2.imwrite(r"E:\INTERNSHIP\SRI TECH ENGG\arr_img.jpg",arr_img )
-    read = cv2.imread(r"E:\INTERNSHIP\SRI TECH ENGG\arr_img.jpg")
+    cv2.imwrite(r".\arr_img.jpg",arr_img )
+    read = cv2.imread(r".\arr_img.jpg")
     gray1 = rgb2gray(read) #32,32
-    print(arr_img)
-    print(gray1)
-    # gray = cv2.imread(resize_img,'0')
     gray = cv2.cvtColor(arr_img, cv2.COLOR_BGR2GRAY)
-    print(gray.shape)
     add_channels = np.expand_dims(gray1, axis=-1) #32,32,1
-    print(add_channels.shape)
     img_array = add_channels.astype('float32') / 255
     img_a = np.expand_dims(np.array(img_array), axis=0) #1,32,32,1
-    print(img_array.shape)
-    print(img_a.shape)
     predict_arr = model.predict(img_a)
     predict_val = predict_arr[-1].round()
     print(predict_val)
@@ -322,16 +223,6 @@ def get_text_from_model(image):
     else:
         val = [i for i in result_dict if result_dict[i]==indx[0]]
         text = val[0]
-    # cv2.imshow('arr_img',arr_img)
-    # cv2.imshow('cv_rgb',cv_rgb)
-    # cv2.imshow('resize_img',resize_img)
-    # cv2.imshow('gray_img',gray)
-    # cv2.imshow('gray_img1',gray1)
-    # plt.imshow(gray1)
-    # plt.show()
-    # cv2.imshow('add_channels',add_channels)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
     return text
 
 def show_final_image(image, bboxes, save_path=None, original_filename=None, expand_size = 10):
@@ -339,16 +230,6 @@ def show_final_image(image, bboxes, save_path=None, original_filename=None, expa
 
     # Initialize rotated_image before the loop
     rotated_image = image.copy()
-
-    # fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-
-    # # Display the original image with bounding boxes
-    # axes[0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-    # axes[0].set_title('Original Image with Bounding Boxes')
-
-    # for bbox in bboxes:
-    #     rect = patches.Polygon(bbox, closed=True, edgecolor='red', linewidth=2, fill=False)
-    #     axes[0].add_patch(rect)
 
     for i, bbox in enumerate(bboxes):
         # Convert bbox to integers
@@ -388,10 +269,6 @@ def show_final_image(image, bboxes, save_path=None, original_filename=None, expa
         saveimage = rotated_image_copy.copy()
         cv2.polylines(saveimage, [rotated_bbox], isClosed=True, color=(0, 255, 0), thickness=2)
         cv2.polylines(rotated_image, [og_rotated_bbox],isClosed=True, color=(0, 255, 255), thickness=1)
-        # cv2.imwrite(f'/home/sasi/Music/result/saveimage_{i}.jpg',saveimage)
-        # Crop the rotated image based on the rotated bounding box
-        # xmin, xmax = min(rotated_bbox[:, 0]), max(rotated_bbox[:, 0])
-        # ymin, ymax = min(rotated_bbox[:, 1]), max(rotated_bbox[:, 1])
 
         # Crop the rotated image based on the rotated bounding box by increase size by 10 pixels in all directions
         xmin, xmax = min(rotated_bbox[:, 0]) - expand_size, max(rotated_bbox[:, 0]) + expand_size
@@ -404,27 +281,11 @@ def show_final_image(image, bboxes, save_path=None, original_filename=None, expa
         ymax = min(rotated_image_copy.shape[0], ymax)
 
         cropped_img = rotated_image_copy[ymin:ymax, xmin:xmax]
-        # cropped_img = rotated_image_copy[xmin:xmax, ymin:ymax]
 
         og_croppedimg = rotated_image[ogymin:ogymax, ogxmin:ogxmax]
-        # print(type(og_croppedimg))
-        # print(type(cropped_img))
-        # cv2.imshow('cropped img',cropped_img)
-        # cv2.imshow('ogcropped img',og_croppedimg)
-        # base1 = os.path.basename(original_filename)
-        # filename1 = f'{os.path.splitext(base1)[0]}{os.path.splitext(base1)[1]}'
-        # print(f'FILENAME --- {filename1}')
-        # saveimage1 = cv2.imread(os.path.join(save_path, filename1))
-        # cv2.imshow('rotated_image',rotated_image)
         predicted_text = get_text_from_model(cropped_img)
-        # saveimage1 = cv2.imread('/home/sasi/Music/result/textimg.jpeg')
         text_img = cv2.putText(rotated_image,predicted_text,(ogxmin,ogymin), cv2.FONT_HERSHEY_PLAIN,
                                 1.5, (0,0,0),2, cv2.LINE_8)
-        # cv2.imshow('text_img',text_img)
-        # cv2.imwrite('/home/sasi/Music/result/textimg.jpeg',text_img)
-        # cv2.imwrite(os.path.join(save_path, filename1), text_img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
         # Save the cropped image if a save path is provided
         if save_path:
@@ -456,19 +317,6 @@ def show_final_image(image, bboxes, save_path=None, original_filename=None, expa
     
     if save_path and (len(bboxes)!=0):
         cv2.imwrite(os.path.join(save_path, filename), rotated_image)
-
-    # Display the rotated image with bounding boxes using matplotlib
-    # axes[1].imshow(cv2.cvtColor(rotated_image_copy, cv2.COLOR_BGR2RGB))
-    # axes[1].set_title('Rotated Image with Bounding Boxes')
-
-    # # Plot the rotated bounding boxes
-    # for rotated_bbox in [bbox for bbox in coordinates_dict.values()]:
-    #     rect = patches.Polygon(
-    #         list(zip(rotated_bbox['rotated_x_coords'], rotated_bbox['rotated_y_coords'])),
-    #         closed=True, edgecolor='red', linewidth=2, fill=False)
-    #     axes[1].add_patch(rect)
-
-    # plt.show()
 
     return coordinates_dict
 
@@ -538,11 +386,7 @@ def test_net(net, image, text_threshold, link_threshold, low_text, cuda, poly, c
     polys = craft_utils.adjustResultCoordinates(polys, ratio_w, ratio_h)
     for k in range(len(polys)):
         if polys[k] is None: polys[k] = boxes[k]
-    
-    # print(f"\ntest.py ratio_w -- \n{ratio_w}\n")
-    # print(f"\ntest.py ratio_h -- \n{ratio_h}\n")
-    # print(f"\ntest.py boxes -- \n{boxes}\n")
-
+  
     t1 = time.time() - t1
 
     # render results (optional)
@@ -554,47 +398,6 @@ def test_net(net, image, text_threshold, link_threshold, low_text, cuda, poly, c
 
     return boxes, polys, ret_score_text
 
-
-# if __name__ == '__main__':
-#     # load net
-#     net = CRAFT()     # initialize
-
-#     print('Loading weights from checkpoint (' + args.trained_model + ')')
-#     # if args.cuda:
-#     #     net.load_state_dict(copyStateDict(torch.load(args.trained_model)))
-#     # else:
-#     #     net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location='cpu')))
-
-#     # if args.cuda:
-#     #     net = net.cuda()
-#     #     net = torch.nn.DataParallel(net)
-#     #     cudnn.benchmark = False
-#     print('Loading weights from checkpoint (' + args.trained_model + ')')
-#     device = torch.device('cuda' if torch.cuda.is_available() and args.cuda else 'cpu')
-#     net = net.to(device)
-#     if device.type == 'cuda' and args.cuda:
-#         net = torch.nn.DataParallel(net)
-#         cudnn.benchmark = False
-
-
-
-#     # net.eval()
-
-#     # LinkRefiner
-#     refine_net = None
-#     if args.refine:
-#         from refinenet import RefineNet
-#         refine_net = RefineNet()
-#         print('Loading weights of refiner from checkpoint (' + args.refiner_model + ')')
-#         if args.cuda:
-#             refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model)))
-#             refine_net = refine_net.cuda()
-#             refine_net = torch.nn.DataParallel(refine_net)
-#         else:
-#             refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model, map_location='cpu')))
-
-#         refine_net.eval()
-#         args.poly = True
 if __name__ == '__main__':
 
     def convert_to_builtin_type(obj):
@@ -647,109 +450,44 @@ if __name__ == '__main__':
         args.poly = True
 
     t = time.time()
-    image_list1 = []
-
-    # capture = cv2.VideoCapture(0)
-    # capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
-    # capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-
-    # while True:
-    #     (grabbed, frame) = capture.read()
-
-    #     if not grabbed:
-    #         break
-
-    #     # Resize frame
-    #     width = 1500
-    #     height = 1000
-    #     dim = (width, height)
-    #     frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
-    #     cv2.imshow('RGB', frame)
-        
-
-    #     if cv2.waitKey(1) & 0xFF == ord('q'):
-    #         print('turning off the camera')
-    #         break
-
-    #     if cv2.waitKey(1) == ord('h') or cv2.waitKey(1) == ord('H'):
-    #         image_path = r'E:\INTERNSHIP\SRI TECH ENGG\merge_pic.jpg'
-    #         # capture.set(cv2.CAP_PROP_BRIGHTNESS, 255/2) # Setting Exposure
-    #         (grabbed, frame) = capture.read() # Updating frame
-    #         print('frame captured')
-    #         if grabbed:
-    #             cv2.imshow('RGB', frame) #Display
-    #             cv2.imwrite(image_path, frame)
-    #             print('image captured')
-            
-
-        # load data
+    # load data
     for k, image_path in enumerate(image_list):
         # print("Test image {:d}/{:d}: {:s}".format(k+1, len(image_list), image_path), end='\r')
         # get_image_stats(image_path)
         image = imgproc.loadImage(image_path)
         rgbimg = matimage.imread(image_path)
         print('image is processing')
-        # grey_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-        # Apply a colormap for thermal effect (e.g., COLORMAP_JET)
-        # thermal_image = cv2.applyColorMap(grey_img, cv2.COLORMAP_JET)
-
-            
 
         # show_final_image(image, bboxes)
         bboxes, polys, score_text = test_net(net, image, args.text_threshold, args.link_threshold, args.low_text, args.cuda, args.poly, args.char, refine_net)
         print(f'Text box is obtained from image {bboxes}')
-
-            # # Extract text from each bounding box
-            # for i, bbox in enumerate(bboxes):
-            #     try:
-            #         # Extract text from the cropped region of the image using OCR
-            #         extracted_text = extract_text(image, bbox)
-
-            #         # Print or store the extracted text
-            #         print(f"Text from bounding box {i + 1}: {extracted_text}")
-
-            #         # You can save the extracted text or perform any further processing here
-            #     except Exception as e:
-            #         print(f"Error processing bounding box {i + 1}: {str(e)}")
-                
-
-            # save score text
-        result_folder = '/home/sasi/Documents/wha/normal/engine/result_jet/'
-        result_folder1 = '/home/sasi/intern/Bush_load/darken_text/result/'
-        result_folder2 = r'e:\INTERNSHIP\SRI TECH ENGG\output\result folder'
+        
+        # save score text
+        result_folder = '..'
         filename, file_ext = os.path.splitext(os.path.basename(image_path))
-        mask_file = result_folder2 + "\\res_" + filename + '_mask.jpg'
+        mask_file = result_folder + "\\res_" + filename + '_mask.jpg'
         cv2.imwrite(mask_file, score_text)
 
-            # file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname=result_folder)
-            # Specify the path to save the annotated image
-        save_path = '/home/sasi/intern/tesseract/engineimg/wordimg/'
-        save_path1 = '/home/sasi/Music/textfolder/'
-        save_path2 = r'e:\INTERNSHIP\SRI TECH ENGG\output\model a to z'
-        save_path3 = r'e:\INTERNSHIP\SRI TECH ENGG\output\save folder1'
+        # file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname=result_folder)
+        # Specify the path to save the annotated image
+        save_path = '..'
 
-            # Show the final image with warped bounding boxes and save coordinates
+        # Show the final image with warped bounding boxes and save coordinates
         coordinates_dict = OrderedDict()
-        coordinates_dict = show_final_image(image, bboxes, save_path2, original_filename=image_path, expand_size = 2)
+        coordinates_dict = show_final_image(image, bboxes, save_path, original_filename=image_path, expand_size = 2)
         print('coordinate is saved')
-            # print(type(coordinates_dict))
-            # print(f"Coordinates Dictionary for Image {k + 1}:", coordinates_dict)
             
 
-            # json_file_path = "/home/sasi/intern/dict1.json"
-            # with open(json_file_path, "w") as f:
-            #     json.dump(coordinates_dict, f, default=convert_to_builtin_type)
+        json_file_path = "./dict1.json"
+        with open(json_file_path, "w") as f:
+            json.dump(coordinates_dict, f, default=convert_to_builtin_type)
 
-            # # Later, to read the dictionary back
-            # with open(json_file_path, "r") as f:
-            #     loaded_coordinates_dict = json.load(f)
+        # Later, to read the dictionary back
+        with open(json_file_path, "r") as f:
+            loaded_coordinates_dict = json.load(f)
 
-            # Now, 'loaded_coordinates_dict' contains the dictionary loaded from the JSON file
-            # print(loaded_coordinates_dict)
+        #Now, 'loaded_coordinates_dict' contains the dictionary loaded from the JSON file
+        #print(loaded_coordinates_dict)
         
-# capture.release() 
-# # Destroy all the windows 
-# cv2.destroyAllWindows() 
 
 print("elapsed time : {}s".format(time.time() - t))
