@@ -21,7 +21,7 @@ LinkRefiner | CTW1500 | - | Used with the General Model | [Click](https://drive.
 
 * Run with pretrained model
 ``` (with python 3.7)
-python test.py --trained_model=[weightfile] --test_folder=[folder path to test images]
+python test.py --trained_model=[weightfile] --test_folder=[folder path to test images] --char True
 ```
 
 The result image and socre maps will be saved to `./result` by default.
@@ -39,7 +39,14 @@ The result image and socre maps will be saved to `./result` by default.
 * `--test_folder`: folder path to input images
 * `--refine`: use link refiner for sentense-level dataset
 * `--refiner_model`: pretrained refiner model
-* `--char`: Character level split (default:False)
+* `--char`: Character level split (default:False). If True, means Each character is got identified used for Model Deployment
+
+## Text Recognition Dataset
+- Download the Datasets
+ 
+ *Used datasets* | *Dataset Link* |
+| :--- | :--- |
+DATASET | [Click](https://drive.google.com/file/d/1AV2bxOPfvxJhp4bhwQNEg9b8ErX31NjW/view?usp=sharing)
 
 ## Acknowledgements
 
