@@ -24,7 +24,7 @@ LinkRefiner | CTW1500 | - | Used with the General Model | [Click](https://drive.
 python test.py --trained_model=[weightfile] --test_folder=[folder path to test images] --char True
 ```
 
-The result image and socre maps will be saved to `./result` by default.
+The result image and score maps will be saved to `./result` by default.
 
 ### Arguments
 * `--trained_model`: pretrained model
@@ -47,6 +47,42 @@ The result image and socre maps will be saved to `./result` by default.
  *Used datasets* | *Dataset Link* |
 | :--- | :--- |
 DATASET | [Click](https://drive.google.com/file/d/1AV2bxOPfvxJhp4bhwQNEg9b8ErX31NjW/view?usp=sharing)
+EMNIST | [Click](https://www.nist.gov/itl/products-and-services/emnist-dataset)
+NIST | [Click](https://www.nist.gov/srd/nist-special-database-19)
+SVHN | [Click](http://ufldl.stanford.edu/housenumbers/)
+Custom Dataset | Cannot disclose Internship Dataset
+
+## Text Detection Results
+- Bounding Box of the Image
+
+![image](https://github.com/Thewhitewolfsasi/OCR_SOLUTION/assets/127896918/e209eb9a-6e85-4d66-8d0a-7d103bc14297)
+
+- Region Score shows Heatmap of the probability of a pixel being at the center of a character
+
+![image](https://github.com/Thewhitewolfsasi/OCR_SOLUTION/assets/127896918/0bf91fea-9159-46a6-a679-78e2168b62b3)
+
+- Affinity Score shows Heatmap of the probability of the space between adjacent characters
+
+![image](https://github.com/Thewhitewolfsasi/OCR_SOLUTION/assets/127896918/5b2bbe88-6370-4f5f-889b-654b94009d76)
+
+## Text Recognition Results
+- Recognised Text shows above the bounding box
+
+<p align="center" width="100%">
+    <img width="100%" src="https://github.com/Thewhitewolfsasi/OCR_SOLUTION/assets/127896918/2f82c218-a572-4aa9-939a-ce5f9fa09b1b">
+</p>
+
+<p align="center" width="100%">
+    <img width="100%" src='https://github.com/Thewhitewolfsasi/OCR_SOLUTION/assets/127896918/2f29781c-861c-4308-ad6e-fcec5b4c8c4d'>
+</p>
+
+<p align="center" width="100%">
+    <img width="100%" src='https://github.com/Thewhitewolfsasi/OCR_SOLUTION/assets/127896918/b0c21b12-0de0-4446-8d34-e4057732a83a'>
+</p>
+
+<p align="center" width="100%">
+    <img width="100%" src="https://github.com/Thewhitewolfsasi/OCR_SOLUTION/assets/127896918/27e794a3-2777-4669-aeda-b66c447a3482">
+</p>
 
 ## Acknowledgements
 
